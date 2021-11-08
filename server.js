@@ -25,7 +25,7 @@ app.get('/api/notes', (req, res) => {
 });
 
 
-app.post('/api/notes'), (req, res) => {
+app.post('/api/notes', (req, res) => {
    // console.log(req.body)
    const { title, text } = req.body
    if (title && text) {
@@ -34,12 +34,15 @@ app.post('/api/notes'), (req, res) => {
            text,
            id: uuid(),
        }
-       console.log(id)
+       console.log(newNote.id)
 
-       const notes = fs.readFile('db/db.json', 'utf8', (error, data) => {
-      error ? console.error(error) : console.log(data)
-      res.json(JSON.parse(data))
-      })
+    // const notes = fs.readFile('db/db.json', 'utf8', (error, data) => {
+    //   error ? console.error(error) : console.log(data)
+    //   res.json(JSON.parse(data))
+    // })
+    let notes = fs.readFileSync('db/db.json', 'utf8')
+
+    notes = JSON.parse(notes)
       
       console.log(notes)
       
@@ -66,7 +69,7 @@ app.post('/api/notes'), (req, res) => {
    } else {
        res.status(500).json('Error in posting review');
    }
-}
+})
 
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
